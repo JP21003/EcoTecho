@@ -148,10 +148,12 @@ if prompt:
             input_data = pd.DataFrame([[especie, dia]], columns=['especies', 'dia_1'])
             
             if "random forest" in prompt.lower():
-                prediccion = modelo_rf.predict(input_data)[0]
+                # Añadimos .values aquí adentro 👇
+                prediccion = modelo_rf.predict(input_data.values)[0]
                 contexto_para_llm = f"El modelo de Random Forest predice una supervivencia de {prediccion:.2f} para la especie {especie} en el día {dia}."
             else:
-                prediccion = modelo_rl.predict(input_data)[0][0]
+                # Añadimos .values aquí adentro 👇
+                prediccion = modelo_rl.predict(input_data.values)[0][0]
                 contexto_para_llm = f"El modelo de Regresión Lineal predice una supervivencia de {prediccion:.2f} para la especie {especie} en el día {dia}."
         else:
             contexto_para_llm = "No se pudieron realizar las predicciones porque los modelos .pkl no están cargados correctamente. Revisa los mensajes de error en la parte superior."
